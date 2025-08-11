@@ -15,13 +15,13 @@ app.use(express.json());
 // Connect to MongoDB
 connectDB();
 
+const fetchAndStoreFactions = require("./services/fetchExternalData");
+
 // Seed DB from factions.json if empty
 async function seedDatabase() {
   const count = await Faction.countDocuments();
   if (count === 0) {
-    const dataPath = path.join(__dirname, "data", "factions.json");
-    const data = JSON.parse(fs.readFileSync(dataPath, "utf8"));
-    await Faction.insertMany(data);
+    await fetchAndStoreFactions();
     console.log("✅ Database seeded with factions.json");
   }
 }
