@@ -54,9 +54,9 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Connect to MongoDB
 async function startServer() {
   try {
-    await connectDB();
+    await connectDB(); //Server will not start until it connects to the MongoDB database
 
-    // Seed DB from external API if empty
+    // Seed DB from external API if empty - If the database is empty, it calls services/fetchExternalData.js to fetch faction data from an external API and populate the database
     const count = await Faction.countDocuments();
     if (count === 0) {
       await fetchAndStoreFactions();
